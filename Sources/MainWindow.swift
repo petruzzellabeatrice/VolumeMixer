@@ -23,9 +23,22 @@ final class MainWindowController: NSObject, NSWindowDelegate {
             if !w.setFrameUsingName("MainWindow") { w.center() }
             window = w
         }
-        NSApp.setActivationPolicy(.regular)
-        window?.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
+        // Un'app "solo barra dei menu" può mostrare finestre sopra a tutto, anche dentro lo
+        // spazio a schermo intero di un'altra app. Prima diventa un'app normale, poi (con un
+        // attimo di ritardo, perché il cambio non è immediato) mostra la finestra: così macOS
+        // la apre sulla scrivania come per qualsiasi altra app.
+        let present = { [weak self] in
+            NSApp.activate()
+            self?.window?.makeKeyAndOrderFront(nil)
+        }
+        if NSApp.activationPolicy() == .regular {
+            present()
+        } else {
+            NSApp.setActivationPolicy(.regular)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                MainActor.assumeIsolated { present() }
+            }
+        }
     }
 
     func windowWillClose(_ notification: Notification) {

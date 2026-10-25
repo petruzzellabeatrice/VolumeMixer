@@ -3,13 +3,18 @@ import AppKit
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // All'avvio dal login resta solo nella barra dei menu; altrimenti apre la finestra.
+        // L'app parte come app normale (così la finestra si apre sulla scrivania).
+        // All'avvio dal login passa subito alla sola barra dei menu, senza finestra.
         let event = NSAppleEventManager.shared().currentAppleEvent
         let atLogin = event?.eventID == kAEOpenApplication &&
             event?.paramDescriptor(forKeyword: keyAEPropData)?.enumCodeValue == keyAELaunchedAsLogInItem
         MainActor.assumeIsolated {
             _ = Mixer.shared
-            if !atLogin { MainWindowController.shared.show() }
+            if atLogin {
+                NSApp.setActivationPolicy(.accessory)
+            } else {
+                MainWindowController.shared.show()
+            }
         }
     }
 
