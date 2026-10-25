@@ -7,23 +7,23 @@ A small macOS menu bar app that lets you set the **volume of each app separately
 I built it for watching a series together while on a video call: the call was always much louder than the show. With VolumeMixer you can turn the call down and the show up, or move a single slider between the two.
 
 <p>
-  <img src="docs/menu.png" width="320" alt="Menu bar panel with one slider per app">
-  <img src="docs/menu-balance.png" width="320" alt="Menu bar panel balancing two apps with one slider">
+  <img src="docs/en/menu.png" width="320" alt="Menu bar panel with one slider per app">
+  <img src="docs/en/menu-balance.png" width="320" alt="Menu bar panel balancing two apps with one slider">
 </p>
 
 ## Features
 
 - **One slider per app**, from 0 to 400%. Above 100% a soft limiter keeps the sound from distorting.
-- **Balance between two apps**: when exactly two apps are playing, tick *"Passa a bilanciamento tra due app"* to control both with a single slider. Optionally the other app is raised up to 200% as you lower one.
+- **Balance between two apps**: when exactly two apps are playing, tick *"Switch to balance between two apps"* to control both with a single slider. Optionally the other app is raised up to 200% as you lower one.
 - **Presets**: save the current volumes and recall them with one click.
 - **Remembers your volumes** for each app and reapplies them when the app starts playing again.
 - Follows output changes (for example plugging in headphones).
 - At 100% the app does not touch the audio at all.
 - Main window plus a compact menu bar panel; optional launch at login.
 
-The interface is currently in Italian.
+The interface is in **English and Italian** and follows your system language. To choose a different language for VolumeMixer only, go to System Settings → General → Language & Region → Applications.
 
-<img src="docs/window.png" width="540" alt="Main window">
+<img src="docs/en/window.png" width="540" alt="Main window">
 
 ## Requirements
 

@@ -1,0 +1,39 @@
+/* Traduzione inglese dell'interfaccia. Le chiavi sono i testi italiani del codice. */
+
+/* Menu della barra */
+"Volume per app" = "Per-app volume";
+"Preset" = "Presets";
+"Nessuna app sta riproducendo audio." = "No apps are playing audio.";
+"Altre app" = "Other apps";
+"0–400%. Oltre il 100% un limitatore evita la distorsione." = "0–400%. Above 100% a limiter prevents distortion.";
+"Apri VolumeMixer…" = "Open VolumeMixer…";
+"Ripristina" = "Reset";
+"Esci" = "Quit";
+"Riporta al 100%" = "Reset to 100%";
+"Riattiva" = "Unmute";
+"Silenzia" = "Mute";
+
+/* Bilanciamento */
+"Passa a bilanciamento tra due app" = "Switch to balance between two apps";
+"Alza l'altra (fino al 200%)" = "Raise the other (up to 200%)";
+"Mentre abbassi un'app, alza l'altra (fino al 200%)" = "While lowering one app, raise the other (up to 200%)";
+"Centra" = "Center";
+
+/* Finestra */
+"App" = "Apps";
+"Volume di ogni app, da 0 a 400%." = "Volume of each app, from 0 to 400%.";
+"Mostra app in silenzio" = "Show silent apps";
+"%@ e %@ stanno suonando insieme." = "%@ and %@ are playing together.";
+"In riproduzione" = "Playing";
+"In silenzio" = "Silent";
+"Salva i volumi attuali e richiamali con un clic (anche dal menu)." = "Save the current volumes and recall them with one click (also from the menu).";
+"Nessun preset salvato." = "No saved presets.";
+"Salva volumi attuali come preset" = "Save current volumes as preset";
+"Nome del preset (es. Serie con amici)" = "Preset name (e.g. Movie night)";
+"Salva" = "Save";
+"Annulla" = "Cancel";
+"Elimina “%@”" = "Delete “%@”";
+"Tutte le app al 100%" = "All apps at 100%";
+"Avvia al login" = "Launch at login";
+"Non riuscito: %@" = "Failed: %@";
+"Ripristina tutto al 100%" = "Reset all to 100%";

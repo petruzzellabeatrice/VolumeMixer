@@ -107,7 +107,7 @@ struct AppIconView: View {
 struct PercentLabel: View {
     let gain: Float
     var body: some View {
-        Text("\(Int((gain * 100).rounded()))%")
+        Text(verbatim: "\(Int((gain * 100).rounded()))%")
             .font(.system(size: 11).monospacedDigit())
             .foregroundStyle(gain > 1 ? .orange : .secondary)
     }
@@ -125,7 +125,7 @@ struct MuteButton: View {
                 .frame(width: 16)
         }
         .buttonStyle(.borderless)
-        .help(gain == 0 ? "Riattiva" : "Silenzia")
+        .help(gain == 0 ? Text("Riattiva") : Text("Silenzia"))
     }
 }
 

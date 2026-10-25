@@ -52,8 +52,8 @@ struct PairBalance: View {
                 side(b)
             }
             HStack {
-                Toggle(compact ? "Alza l'altra (fino al 200%)"
-                               : "Mentre abbassi un'app, alza l'altra (fino al 200%)",
+                Toggle(compact ? LocalizedStringKey("Alza l'altra (fino al 200%)")
+                               : LocalizedStringKey("Mentre abbassi un'app, alza l'altra (fino al 200%)"),
                        isOn: $boost)
                     .toggleStyle(.checkbox)
                     .font(compact ? .caption : .callout)

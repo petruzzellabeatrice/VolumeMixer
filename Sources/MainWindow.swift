@@ -54,7 +54,7 @@ struct MainView: View {
 // MARK: - Sezioni
 
 private struct SectionTitle: View {
-    let title: String, subtitle: String
+    let title: LocalizedStringKey, subtitle: LocalizedStringKey
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title).font(.title3.weight(.semibold))
@@ -121,7 +121,7 @@ private struct PresetSection: View {
     }
 
     private func summary(_ p: Preset) -> String {
-        if p.gains.isEmpty { return "Tutte le app al 100%" }
+        if p.gains.isEmpty { return String(localized: "Tutte le app al 100%") }
         return p.gains.map { "\(mixer.name(for: $0.key)): \(Int(($0.value * 100).rounded()))%" }
             .sorted().joined(separator: "\n")
     }
@@ -190,7 +190,7 @@ private struct LargeAppRow: View {
                 HStack(spacing: 4) {
                     Circle().fill(entry.isPlaying ? Color.green : Color.secondary.opacity(0.4))
                         .frame(width: 6, height: 6)
-                    Text(entry.isPlaying ? "In riproduzione" : "In silenzio")
+                    Text(entry.isPlaying ? LocalizedStringKey("In riproduzione") : LocalizedStringKey("In silenzio"))
                         .font(.caption).foregroundStyle(.secondary)
                 }
             }
@@ -247,7 +247,7 @@ private final class LoginItem: ObservableObject {
             if on { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
             error = nil
         } catch {
-            self.error = "Non riuscito: \(error.localizedDescription)"
+            self.error = String(localized: "Non riuscito: \(error.localizedDescription)")
         }
         enabled = SMAppService.mainApp.status == .enabled
     }

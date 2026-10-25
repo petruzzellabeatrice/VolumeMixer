@@ -15,6 +15,7 @@ APP="$BUILD/VolumeMixer.app"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp AppIcon.icns "$APP/Contents/Resources/"
 cp Info.plist "$APP/Contents/"
+cp -R Resources/ "$APP/Contents/Resources/"
 
 compile() {
     swiftc -O -swift-version 5 -parse-as-library \

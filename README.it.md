@@ -7,8 +7,8 @@ Una piccola app per la barra dei menu di macOS che permette di regolare **il vol
 L'ho creata per guardare una serie insieme ad altre persone durante una videochiamata: la chiamata si sentiva sempre molto più forte della serie. Con VolumeMixer puoi abbassare la chiamata e alzare la serie, oppure spostare il volume fra le due con un solo cursore.
 
 <p>
-  <img src="docs/menu.png" width="320" alt="Menu della barra con un cursore per app">
-  <img src="docs/menu-balance.png" width="320" alt="Menu della barra con il bilanciamento tra due app">
+  <img src="docs/it/menu.png" width="320" alt="Menu della barra con un cursore per app">
+  <img src="docs/it/menu-balance.png" width="320" alt="Menu della barra con il bilanciamento tra due app">
 </p>
 
 ## Funzioni
@@ -21,7 +21,9 @@ L'ho creata per guardare una serie insieme ad altre persone durante una videochi
 - Al 100% l'app non tocca l'audio.
 - Finestra principale più un pannello compatto nella barra dei menu; avvio al login opzionale.
 
-<img src="docs/window.png" width="540" alt="Finestra principale">
+L'interfaccia è in **italiano e inglese** e segue la lingua del sistema. Per scegliere una lingua diversa solo per VolumeMixer: Impostazioni di Sistema → Generali → Lingua e Zona → Applicazioni.
+
+<img src="docs/it/window.png" width="540" alt="Finestra principale">
 
 ## Requisiti
 
