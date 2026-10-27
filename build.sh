@@ -21,7 +21,7 @@ compile() {
     swiftc -O -swift-version 5 -parse-as-library \
         -target "$1-apple-macos14.4" \
         -framework SwiftUI -framework AppKit -framework CoreAudio -framework AudioToolbox \
-        -framework ServiceManagement \
+        -framework ServiceManagement -framework Carbon \
         Sources/*.swift -o "$2"
 }
 

@@ -4,17 +4,17 @@
 
 A small macOS menu bar app that lets you set the **volume of each app separately**.
 
-I built it for watching a series together while on a video call: the call was always much louder than the show. With VolumeMixer you can turn the call down and the show up, or move a single slider between the two.
+I built it for watching a series together while on a video call: the call was always much louder than the show. With VolumeMixer you can turn the call down and the show up, even from the keyboard while the show is playing.
 
 <p>
   <img src="docs/en/menu.png" width="320" alt="Menu bar panel with one slider per app">
-  <img src="docs/en/menu-balance.png" width="320" alt="Menu bar panel balancing two apps with one slider">
+  <img src="docs/en/hud.png" width="280" alt="On-screen indicator shown when changing volume from the keyboard">
 </p>
 
 ## Features
 
 - **One slider per app**, from 0 to 400%. Above 100% a soft limiter keeps the sound from distorting.
-- **Balance between two apps**: when exactly two apps are playing, tick *"Switch to balance between two apps"* to control both with a single slider. Optionally the other app is raised up to 200% as you lower one.
+- **Keyboard shortcuts**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + arrow) raise or lower the volume of the frontmost app by 5%; hold them to keep going. **⌃⌥← / ⌃⌥→** pick another app that is playing: while the indicator is visible, ⌃⌥↑ / ⌃⌥↓ adjust that app without bringing it to the front, so you can turn down the call without leaving a full-screen video. A small indicator at the top of the screen shows the new level, even over full-screen video. The Mac's own volume keys keep working as usual. The shortcuts can be turned off in the main window.
 - **Presets**: save the current volumes and recall them with one click.
 - **Remembers your volumes** for each app and reapplies them when the app starts playing again.
 - Follows output changes (for example plugging in headphones).
@@ -66,10 +66,11 @@ The code is in `Sources/`:
 | File | What it does |
 |---|---|
 | `AudioTap.swift` | Core Audio: listing audio processes, the tap, the aggregate device and the render callback |
-| `Mixer.swift` | State: which apps are playing, volumes, presets, detecting the pair of playing apps |
+| `Mixer.swift` | State: which apps are playing, volumes, presets, keyboard volume changes |
 | `MenuView.swift` | Menu bar panel and shared UI components |
 | `MainWindow.swift` | Main window |
-| `Balance.swift` | Balance control between two apps |
+| `HotKeys.swift` | Global ⌃⌥ + arrow shortcuts |
+| `VolumeHUD.swift` | On-screen volume indicator |
 | `App.swift` | App entry point |
 
 ## Known limitations

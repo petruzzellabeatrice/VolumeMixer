@@ -26,13 +26,11 @@ final class Mixer: ObservableObject {
     @Published private(set) var silentApps: [AppEntry] = []
     @Published private(set) var gains: [String: Float]
     @Published private(set) var presets: [Preset]
-    /// Nomi delle app viste almeno una volta (per preset e bilanciamento quando l'app è chiusa).
+    /// Nomi delle app viste almeno una volta (per i preset quando l'app è chiusa).
     @Published private(set) var knownNames: [String: String]
-    /// Le due app che stanno suonando, se sono esattamente due (altrimenti vuoto).
-    @Published private(set) var pair: [AppEntry] = []
 
     /// Un'app che si è fermata da meno di così conta ancora come "in riproduzione"
-    /// (una pausa breve della serie non fa sparire il cursore unico).
+    /// (una pausa breve della serie non la fa sparire dall'elenco).
     private let playingGrace: TimeInterval = 8
     private var lastPlayed: [String: Date] = [:]
 
@@ -78,6 +76,85 @@ final class Mixer: ObservableObject {
         if let icon = entries[id]?.icon { return icon }
         guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: id) else { return nil }
         return NSWorkspace.shared.icon(forFile: url.path)
+    }
+
+    // MARK: Tastiera
+
+    /// Passo delle scorciatoie ⌃⌥↑ / ⌃⌥↓.
+    static let keyStep: Float = 0.05
+    /// Per quanto resta valida l'app scelta con ⌃⌥← / ⌃⌥→ dopo l'ultimo tasto
+    /// (un po' più del riquadro a schermo, che sparisce dopo 1,5 s + dissolvenza).
+    static let selectionTimeout: TimeInterval = 1.9
+
+    /// Cosa mostrare nel riquadro del volume.
+    struct HUDInfo {
+        let name: String
+        let icon: NSImage?
+        let gain: Float
+        /// Es. "2/3" quando l'app è stata scelta con ⌃⌥← / ⌃⌥→.
+        let position: String?
+    }
+
+    private var selectedID: String?
+    private var selectionExpiry = Date.distantPast
+    private var selectionActive: Bool { selectedID != nil && Date() < selectionExpiry }
+
+    /// App fra cui scegliere con ⌃⌥← / ⌃⌥→: quelle dell'elenco (in riproduzione o con volume
+    /// personalizzato), escluse quelle di sistema.
+    private var selectableApps: [AppEntry] { apps.filter(\.isRegularApp) }
+
+    /// ⌃⌥← / ⌃⌥→: passa all'app precedente/successiva dell'elenco, senza toglierla dal primo piano.
+    func cycleSelection(forward: Bool) -> HUDInfo? {
+        let list = selectableApps
+        guard !list.isEmpty else { return nil }
+        let current: Int?
+        if selectionActive, let id = selectedID {
+            current = list.firstIndex { $0.id == id }
+        } else {
+            // Si parte dall'app in primo piano, se è nell'elenco.
+            current = list.firstIndex { $0.id == NSWorkspace.shared.frontmostApplication?.bundleIdentifier }
+        }
+        let next: Int
+        if let current {
+            next = (current + (forward ? 1 : -1) + list.count) % list.count
+        } else {
+            next = forward ? 0 : list.count - 1
+        }
+        selectedID = list[next].id
+        selectionExpiry = Date().addingTimeInterval(Self.selectionTimeout)
+        return info(for: list[next].id)
+    }
+
+    /// ⌃⌥↑ / ⌃⌥↓: alza o abbassa a multipli del 5% l'app scelta con ⌃⌥← / ⌃⌥→ se il riquadro
+    /// è ancora visibile, altrimenti l'app in primo piano. Nil se in primo piano c'è VolumeMixer.
+    func nudgeTarget(by delta: Float) -> HUDInfo? {
+        let id: String
+        if selectionActive, let selected = selectedID {
+            id = selected
+            selectionExpiry = Date().addingTimeInterval(Self.selectionTimeout)
+        } else {
+            guard let app = NSWorkspace.shared.frontmostApplication,
+                  app.processIdentifier != ownPID,
+                  let bid = app.bundleIdentifier else { return nil }
+            id = bid
+            selectedID = nil
+        }
+        let value = min(4, max(0, ((gain(for: id) + delta) * 20).rounded() / 20))
+        setGain(value, for: id)
+        return info(for: id)
+    }
+
+    private func info(for id: String) -> HUDInfo {
+        let running = NSRunningApplication.runningApplications(withBundleIdentifier: id).first
+        var position: String?
+        if selectionActive, selectedID == id {
+            let list = selectableApps
+            if let i = list.firstIndex(where: { $0.id == id }) { position = "\(i + 1)/\(list.count)" }
+        }
+        return HUDInfo(name: entries[id]?.name ?? running?.localizedName.map(cleanName) ?? name(for: id),
+                       icon: running?.icon ?? icon(for: id),
+                       gain: gain(for: id),
+                       position: position)
     }
 
     // MARK: Preset
@@ -148,10 +225,6 @@ final class Mixer: ObservableObject {
         let sorted = all.values.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
         let newApps = sorted.filter { recentlyPlaying($0.id) || gains[$0.id] != nil }
         let newSilent = sorted.filter { !recentlyPlaying($0.id) && gains[$0.id] == nil && $0.isRegularApp }
-        // Per la coppia contano solo le app "vere": un suono di sistema non deve romperla.
-        let playingApps = sorted.filter { $0.isRegularApp && recentlyPlaying($0.id) }
-        let newPair = playingApps.count == 2 ? playingApps : []
-        if newPair.map(\.id) != pair.map(\.id) { pair = newPair }
         if newApps.map(\.id) != apps.map(\.id) || newApps.map(\.isPlaying) != apps.map(\.isPlaying) { apps = newApps }
         if newSilent.map(\.id) != silentApps.map(\.id) { silentApps = newSilent }
 

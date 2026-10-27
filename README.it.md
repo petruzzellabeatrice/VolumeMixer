@@ -4,17 +4,17 @@
 
 Una piccola app per la barra dei menu di macOS che permette di regolare **il volume di ogni app separatamente**.
 
-L'ho creata per guardare una serie insieme ad altre persone durante una videochiamata: la chiamata si sentiva sempre molto più forte della serie. Con VolumeMixer puoi abbassare la chiamata e alzare la serie, oppure spostare il volume fra le due con un solo cursore.
+L'ho creata per guardare una serie insieme ad altre persone durante una videochiamata: la chiamata si sentiva sempre molto più forte della serie. Con VolumeMixer puoi abbassare la chiamata e alzare la serie, anche da tastiera mentre guardi la serie.
 
 <p>
   <img src="docs/it/menu.png" width="320" alt="Menu della barra con un cursore per app">
-  <img src="docs/it/menu-balance.png" width="320" alt="Menu della barra con il bilanciamento tra due app">
+  <img src="docs/it/hud.png" width="280" alt="Indicatore che compare quando cambi il volume da tastiera">
 </p>
 
 ## Funzioni
 
 - **Un cursore per ogni app**, da 0 a 400%. Sopra il 100% un limitatore evita la distorsione.
-- **Bilanciamento tra due app**: quando suonano esattamente due app, spunta *"Passa a bilanciamento tra due app"* per controllarle con un solo cursore. Se vuoi, mentre abbassi un'app l'altra si alza fino al 200%.
+- **Scorciatoie da tastiera**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + freccia) alzano o abbassano del 5% il volume dell'app in primo piano; tenendoli premuti il volume continua a cambiare. **⌃⌥← / ⌃⌥→** scelgono un'altra app che sta suonando: finché l'indicatore è visibile, ⌃⌥↑ / ⌃⌥↓ regolano quell'app senza portarla in primo piano, così puoi abbassare la chiamata senza uscire da un video a schermo intero. Un piccolo indicatore in alto mostra il nuovo livello, anche sopra i video a schermo intero. I tasti del volume del Mac continuano a funzionare come sempre. Le scorciatoie si possono disattivare dalla finestra principale.
 - **Preset**: salva i volumi attuali e richiamali con un clic.
 - **Ricorda i volumi** di ogni app e li riapplica quando l'app torna a suonare.
 - Si adatta da sola quando cambia l'uscita audio (per esempio se colleghi le cuffie).
@@ -66,10 +66,11 @@ Il codice è in `Sources/`:
 | File | Cosa fa |
 |---|---|
 | `AudioTap.swift` | Core Audio: elenco dei processi audio, tap, dispositivo aggregato e funzione di rendering |
-| `Mixer.swift` | Stato: app in riproduzione, volumi, preset, riconoscimento della coppia di app |
+| `Mixer.swift` | Stato: app in riproduzione, volumi, preset, volume da tastiera |
 | `MenuView.swift` | Pannello della barra dei menu e componenti condivisi |
 | `MainWindow.swift` | Finestra principale |
-| `Balance.swift` | Bilanciamento tra due app |
+| `HotKeys.swift` | Scorciatoie globali ⌃⌥ + frecce |
+| `VolumeHUD.swift` | Indicatore del volume a schermo |
 | `App.swift` | Avvio dell'app |
 
 ## Limiti noti

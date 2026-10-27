@@ -54,6 +54,7 @@ struct MainView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     AppsSection(mixer: mixer)
+                    KeyboardSection()
                     PresetSection(mixer: mixer)
                 }
                 .padding(20)
@@ -72,6 +73,47 @@ private struct SectionTitle: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title).font(.title3.weight(.semibold))
             Text(subtitle).font(.callout).foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct KeyboardSection: View {
+    @AppStorage("hotkeysEnabled") private var enabled = true
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            SectionTitle(title: "Tastiera",
+                         subtitle: "Regola il volume dell'app in primo piano senza aprire VolumeMixer.")
+            GroupBox {
+                VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack(spacing: 24) {
+                            shortcut("⌃⌥↑", "Alza del 5%")
+                            shortcut("⌃⌥↓", "Abbassa del 5%")
+                        }
+                        shortcut("⌃⌥← ⌃⌥→", "Scegli un'altra app che sta suonando")
+                        Text("Dopo ⌃⌥← o ⌃⌥→, finché il riquadro è visibile, ⌃⌥↑ e ⌃⌥↓ regolano l'app scelta senza toglierla dal primo piano (comodo con un video a schermo intero).")
+                            .font(.caption).foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .opacity(enabled ? 1 : 0.4)
+                    Toggle("Attiva le scorciatoie da tastiera", isOn: $enabled)
+                        .toggleStyle(.checkbox)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(6)
+            }
+        }
+        .onChange(of: enabled) { _, on in HotKeys.shared.setEnabled(on) }
+    }
+
+    private func shortcut(_ keys: String, _ label: LocalizedStringKey) -> some View {
+        HStack(spacing: 8) {
+            Text(verbatim: keys)
+                .font(.system(.body, design: .rounded).weight(.medium))
+                .padding(.horizontal, 8).padding(.vertical, 3)
+                .background(.quaternary, in: RoundedRectangle(cornerRadius: 6))
+            Text(label)
         }
     }
 }
@@ -143,7 +185,6 @@ private struct PresetSection: View {
 private struct AppsSection: View {
     @ObservedObject var mixer: Mixer
     @AppStorage("showSilent") private var showSilent = false
-    @AppStorage("pairMode") private var pairMode = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -153,24 +194,7 @@ private struct AppsSection: View {
                 Spacer()
                 Toggle("Mostra app in silenzio", isOn: $showSilent).toggleStyle(.switch).controlSize(.small)
             }
-            let usePair = pairMode && mixer.pair.count == 2
-            if mixer.pair.count == 2 {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("\(mixer.pair[0].name) e \(mixer.pair[1].name) stanno suonando insieme.")
-                        .font(.callout).foregroundStyle(.secondary)
-                    PairModePicker(pairMode: $pairMode, compact: false)
-                }
-            }
-            if usePair {
-                GroupBox {
-                    PairBalance(mixer: mixer, a: mixer.pair[0], b: mixer.pair[1], compact: false)
-                        .padding(6)
-                }
-            }
-            // Con il cursore unico, le due app della coppia non hanno un cursore proprio.
-            let pairIDs = usePair ? Set(mixer.pair.map(\.id)) : []
-            let list = (mixer.apps + (showSilent ? mixer.silentApps : [])).filter { !pairIDs.contains($0.id) }
-            if !(usePair && list.isEmpty) {
+            let list = mixer.apps + (showSilent ? mixer.silentApps : [])
             GroupBox {
                 VStack(spacing: 0) {
                     if list.isEmpty {
@@ -184,7 +208,6 @@ private struct AppsSection: View {
                     }
                 }
                 .padding(.horizontal, 6)
-            }
             }
         }
     }

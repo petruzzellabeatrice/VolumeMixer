@@ -32,7 +32,7 @@ struct AppRow: View {
 
 struct MenuView: View {
     @ObservedObject var mixer: Mixer
-    @AppStorage("pairMode") private var pairMode = true
+    @AppStorage("hotkeysEnabled") private var hotkeysEnabled = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -49,30 +49,21 @@ struct MenuView: View {
                     .fixedSize()
                 }
             }
-            let usePair = pairMode && mixer.pair.count == 2
-            if mixer.pair.count == 2 {
-                PairModePicker(pairMode: $pairMode, compact: true)
-            }
-            if usePair {
-                PairBalance(mixer: mixer, a: mixer.pair[0], b: mixer.pair[1], compact: true)
-                    .padding(8)
-                    .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 8))
-            }
-            // Con il cursore unico, le due app della coppia non hanno un cursore proprio.
-            let pairIDs = usePair ? Set(mixer.pair.map(\.id)) : []
-            let others = mixer.apps.filter { !pairIDs.contains($0.id) }
-            if others.isEmpty && !usePair {
+            if mixer.apps.isEmpty {
                 Text("Nessuna app sta riproducendo audio.")
                     .font(.callout).foregroundStyle(.secondary)
                     .padding(.vertical, 8)
             } else {
-                if usePair && !others.isEmpty {
-                    Text("Altre app").font(.caption).foregroundStyle(.secondary).padding(.top, 2)
-                }
-                ForEach(others) { AppRow(entry: $0, mixer: mixer) }
+                ForEach(mixer.apps) { AppRow(entry: $0, mixer: mixer) }
             }
-            Text("0–400%. Oltre il 100% un limitatore evita la distorsione.")
-                .font(.caption2).foregroundStyle(.secondary)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("0–400%. Oltre il 100% un limitatore evita la distorsione.")
+                if hotkeysEnabled {
+                    Text("⌃⌥↑ / ⌃⌥↓: volume dell'app in primo piano.")
+                    Text("⌃⌥← / ⌃⌥→: scegli un'altra app.")
+                }
+            }
+            .font(.caption2).foregroundStyle(.secondary)
             Divider()
             HStack {
                 Button("Apri VolumeMixer…") { MainWindowController.shared.show() }

@@ -8,8 +8,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let event = NSAppleEventManager.shared().currentAppleEvent
         let atLogin = event?.eventID == kAEOpenApplication &&
             event?.paramDescriptor(forKeyword: keyAEPropData)?.enumCodeValue == keyAELaunchedAsLogInItem
+        UserDefaults.standard.register(defaults: ["hotkeysEnabled": true])
         MainActor.assumeIsolated {
             _ = Mixer.shared
+            HotKeys.shared.onPress = { key in
+                let mixer = Mixer.shared
+                let info: Mixer.HUDInfo?
+                switch key {
+                case .up: info = mixer.nudgeTarget(by: Mixer.keyStep)
+                case .down: info = mixer.nudgeTarget(by: -Mixer.keyStep)
+                case .left: info = mixer.cycleSelection(forward: false)
+                case .right: info = mixer.cycleSelection(forward: true)
+                }
+                if let info { VolumeHUD.shared.show(info) }
+            }
+            HotKeys.shared.setEnabled(UserDefaults.standard.bool(forKey: "hotkeysEnabled"))
             if atLogin {
                 NSApp.setActivationPolicy(.accessory)
             } else {
