@@ -14,7 +14,7 @@ L'ho creata per guardare una serie insieme ad altre persone durante una videochi
 ## Funzioni
 
 - **Un cursore per ogni app**, da 0 a 400%. Sopra il 100% un limitatore evita la distorsione.
-- **Scorciatoie da tastiera**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + freccia) alzano o abbassano del 5% il volume dell'app in primo piano; tenendoli premuti il volume continua a cambiare. **⌃⌥← / ⌃⌥→** scelgono un'altra app che sta suonando: finché l'indicatore è visibile, ⌃⌥↑ / ⌃⌥↓ regolano quell'app senza portarla in primo piano, così puoi abbassare la chiamata senza uscire da un video a schermo intero. Un piccolo indicatore in alto mostra il nuovo livello, anche sopra i video a schermo intero. I tasti del volume del Mac continuano a funzionare come sempre. Nella finestra principale puoi disattivarle, e il pulsante **?** accanto alla casella le spiega.
+- **Scorciatoie da tastiera**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + freccia) alzano o abbassano del 5% il volume dell'app in primo piano; tenendoli premuti il volume continua a cambiare. **⌃⌥← / ⌃⌥→** scelgono un'altra app che sta suonando: finché l'indicatore è visibile, ⌃⌥↑ / ⌃⌥↓ regolano quell'app senza portarla in primo piano, così puoi abbassare la chiamata senza uscire da un video a schermo intero. **⌃⌥0** riporta tutte le app al 100%. Un piccolo indicatore in alto mostra il nuovo livello, anche sopra i video a schermo intero. I tasti del volume del Mac continuano a funzionare come sempre. Nella finestra principale puoi disattivarle, e il pulsante **?** accanto alla casella le spiega.
 - **Preset**: salva i volumi attuali e richiamali con un clic.
 - **Ricorda i volumi** di ogni app e li riapplica quando l'app torna a suonare.
 - Si adatta da sola quando cambia l'uscita audio (per esempio se colleghi le cuffie).
@@ -69,7 +69,7 @@ Il codice è in `Sources/`:
 | `Mixer.swift` | Stato: app in riproduzione, volumi, preset, volume da tastiera |
 | `MenuView.swift` | Pannello della barra dei menu e componenti condivisi |
 | `MainWindow.swift` | Finestra principale |
-| `HotKeys.swift` | Scorciatoie globali ⌃⌥ + frecce |
+| `HotKeys.swift` | Scorciatoie globali ⌃⌥ + frecce e ⌃⌥0 |
 | `VolumeHUD.swift` | Indicatore del volume a schermo |
 | `App.swift` | Avvio dell'app |
 

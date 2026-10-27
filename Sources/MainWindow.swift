@@ -116,6 +116,7 @@ private struct ShortcutsHelp: View {
                 shortcut("⌃⌥↑", "Alza del 5%")
                 shortcut("⌃⌥↓", "Abbassa del 5%")
                 shortcut("⌃⌥← ⌃⌥→", "Scegli un'altra app che sta suonando")
+                shortcut("⌃⌥0", "Riporta tutte le app al 100%")
             }
             Text("Dopo ⌃⌥← o ⌃⌥→, finché il riquadro è visibile, ⌃⌥↑ e ⌃⌥↓ regolano l'app scelta senza toglierla dal primo piano (comodo con un video a schermo intero).")
                 .font(.callout).foregroundStyle(.secondary)

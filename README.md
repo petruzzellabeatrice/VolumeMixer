@@ -14,7 +14,7 @@ I built it for watching a series together while on a video call: the call was al
 ## Features
 
 - **One slider per app**, from 0 to 400%. Above 100% a soft limiter keeps the sound from distorting.
-- **Keyboard shortcuts**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + arrow) raise or lower the volume of the frontmost app by 5%; hold them to keep going. **⌃⌥← / ⌃⌥→** pick another app that is playing: while the indicator is visible, ⌃⌥↑ / ⌃⌥↓ adjust that app without bringing it to the front, so you can turn down the call without leaving a full-screen video. A small indicator at the top of the screen shows the new level, even over full-screen video. The Mac's own volume keys keep working as usual. In the main window you can turn them off, and the **?** button next to the checkbox explains them.
+- **Keyboard shortcuts**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + arrow) raise or lower the volume of the frontmost app by 5%; hold them to keep going. **⌃⌥← / ⌃⌥→** pick another app that is playing: while the indicator is visible, ⌃⌥↑ / ⌃⌥↓ adjust that app without bringing it to the front, so you can turn down the call without leaving a full-screen video. **⌃⌥0** resets all apps to 100%. A small indicator at the top of the screen shows the new level, even over full-screen video. The Mac's own volume keys keep working as usual. In the main window you can turn them off, and the **?** button next to the checkbox explains them.
 - **Presets**: save the current volumes and recall them with one click.
 - **Remembers your volumes** for each app and reapplies them when the app starts playing again.
 - Follows output changes (for example plugging in headphones).
@@ -69,7 +69,7 @@ The code is in `Sources/`:
 | `Mixer.swift` | State: which apps are playing, volumes, presets, keyboard volume changes |
 | `MenuView.swift` | Menu bar panel and shared UI components |
 | `MainWindow.swift` | Main window |
-| `HotKeys.swift` | Global ⌃⌥ + arrow shortcuts |
+| `HotKeys.swift` | Global ⌃⌥ + arrow and ⌃⌥0 shortcuts |
 | `VolumeHUD.swift` | On-screen volume indicator |
 | `App.swift` | App entry point |
 

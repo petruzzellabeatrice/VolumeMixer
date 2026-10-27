@@ -13,12 +13,15 @@ final class VolumeHUD {
 
     /// Quanto resta visibile il riquadro dopo l'ultimo tasto (poi si dissolve).
     static let displayTime: TimeInterval = 1.5
+    /// I messaggi restano un po' di più e si dissolvono più lentamente.
+    static let messageDisplayTime: TimeInterval = 2
 
     func show(_ info: Mixer.HUDInfo) {
         model.name = info.name
         model.icon = info.icon
         model.gain = info.gain
         model.position = info.position
+        model.isMessage = info.isMessage
 
         let panel = self.panel ?? makePanel()
         self.panel = panel
@@ -33,14 +36,15 @@ final class VolumeHUD {
         hideWork?.cancel()
         let work = DispatchWorkItem { [weak panel] in
             NSAnimationContext.runAnimationGroup({ ctx in
-                ctx.duration = 0.35
+                ctx.duration = info.isMessage ? 0.8 : 0.35
                 panel?.animator().alphaValue = 0
             }, completionHandler: {
                 MainActor.assumeIsolated { panel?.orderOut(nil) }
             })
         }
         hideWork = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + Self.displayTime, execute: work)
+        DispatchQueue.main.asyncAfter(deadline: .now() + (info.isMessage ? Self.messageDisplayTime : Self.displayTime),
+                                      execute: work)
     }
 
     private func makePanel() -> NSPanel {
@@ -77,6 +81,7 @@ final class HUDModel: ObservableObject {
     @Published var icon: NSImage?
     @Published var gain: Float = 1
     @Published var position: String?
+    @Published var isMessage = false
 }
 
 struct HUDView: View {
@@ -85,25 +90,34 @@ struct HUDView: View {
     var body: some View {
         HStack(spacing: 14) {
             AppIconView(icon: model.icon, size: 44)
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(spacing: 6) {
-                    Text(model.name).font(.headline).lineLimit(1)
-                    if let position = model.position {
-                        // App scelta con ⌃⌥← / ⌃⌥→: mostra la posizione nell'elenco.
-                        Text(verbatim: "‹ \(position) ›")
-                            .font(.caption.monospacedDigit())
-                            .foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                    Text(verbatim: "\(Int((model.gain * 100).rounded()))%")
-                        .font(.headline.monospacedDigit())
-                        .foregroundStyle(model.gain > 1 ? .orange : .primary)
-                }
-                LevelBar(gain: model.gain)
+            if model.isMessage {
+                Text(model.name).font(.headline).lineLimit(1)
+                Spacer()
+            } else {
+                level
             }
         }
         .padding(.horizontal, 18)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var level: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Text(model.name).font(.headline).lineLimit(1)
+                if let position = model.position {
+                    // App scelta con ⌃⌥← / ⌃⌥→: mostra la posizione nell'elenco.
+                    Text(verbatim: "‹ \(position) ›")
+                        .font(.caption.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Text(verbatim: "\(Int((model.gain * 100).rounded()))%")
+                    .font(.headline.monospacedDigit())
+                    .foregroundStyle(model.gain > 1 ? .orange : .primary)
+            }
+            LevelBar(gain: model.gain)
+        }
     }
 }
 

@@ -21,6 +21,8 @@
 "Dopo ⌃⌥← o ⌃⌥→, finché il riquadro è visibile, ⌃⌥↑ e ⌃⌥↓ regolano l'app scelta senza toglierla dal primo piano (comodo con un video a schermo intero)." = "After ⌃⌥← or ⌃⌥→, while the indicator is visible, ⌃⌥↑ and ⌃⌥↓ adjust the chosen app without bringing it to the front (handy with full-screen video).";
 "Attiva le scorciatoie da tastiera" = "Enable keyboard shortcuts";
 "Scorciatoie da tastiera" = "Keyboard shortcuts";
+"Riporta tutte le app al 100%" = "Reset all apps to 100%";
+"Tutte le app al 100%" = "All apps at 100%";
 "Come funzionano le scorciatoie" = "How the shortcuts work";
 "Fine" = "Done";
 

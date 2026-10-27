@@ -19,6 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 case .down: info = mixer.nudgeTarget(by: -Mixer.keyStep)
                 case .left: info = mixer.cycleSelection(forward: false)
                 case .right: info = mixer.cycleSelection(forward: true)
+                case .reset: info = mixer.resetAllFromKeyboard()
                 }
                 if let info { VolumeHUD.shared.show(info) }
             }

@@ -1,14 +1,14 @@
 import AppKit
 import Carbon.HIToolbox
 
-/// Scorciatoie globali ⌃⌥↑ / ⌃⌥↓ / ⌃⌥← / ⌃⌥→ (Carbon RegisterEventHotKey: non servono permessi
+/// Scorciatoie globali ⌃⌥↑ / ⌃⌥↓ / ⌃⌥← / ⌃⌥→ / ⌃⌥0 (Carbon RegisterEventHotKey: non servono permessi
 /// di Accessibilità e funzionano qualunque app sia in primo piano).
 @MainActor
 final class HotKeys {
     static let shared = HotKeys()
 
     enum Key: UInt32 {
-        case up = 1, down = 2, left = 3, right = 4
+        case up = 1, down = 2, left = 3, right = 4, reset = 5
         /// Solo il volume si ripete tenendo premuto, non la scelta dell'app.
         var repeats: Bool { self == .up || self == .down }
     }
@@ -32,7 +32,7 @@ final class HotKeys {
         }
         let modifiers = UInt32(controlKey | optionKey)
         for (key, code) in [(Key.up, kVK_UpArrow), (Key.down, kVK_DownArrow),
-                             (Key.left, kVK_LeftArrow), (Key.right, kVK_RightArrow)] {
+                             (Key.left, kVK_LeftArrow), (Key.right, kVK_RightArrow), (Key.reset, kVK_ANSI_0)] {
             var ref: EventHotKeyRef?
             let id = EventHotKeyID(signature: OSType(0x564D_5852), id: key.rawValue)   // 'VMXR'
             let err = RegisterEventHotKey(UInt32(code), modifiers, id, GetApplicationEventTarget(), 0, &ref)

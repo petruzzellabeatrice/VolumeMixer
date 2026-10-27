@@ -93,6 +93,8 @@ final class Mixer: ObservableObject {
         let gain: Float
         /// Es. "2/3" quando l'app è stata scelta con ⌃⌥← / ⌃⌥→.
         let position: String?
+        /// Solo un messaggio, senza percentuale né barra (es. "Tutte le app al 100%").
+        var isMessage = false
     }
 
     private var selectedID: String?
@@ -142,6 +144,14 @@ final class Mixer: ObservableObject {
         let value = min(4, max(0, ((gain(for: id) + delta) * 20).rounded() / 20))
         setGain(value, for: id)
         return info(for: id)
+    }
+
+    /// ⌃⌥0: riporta tutte le app al 100%.
+    func resetAllFromKeyboard() -> HUDInfo {
+        resetAll()
+        selectedID = nil
+        return HUDInfo(name: String(localized: "Tutte le app al 100%"), icon: NSApp.applicationIconImage, gain: 1,
+                       position: nil, isMessage: true)
     }
 
     private func info(for id: String) -> HUDInfo {
