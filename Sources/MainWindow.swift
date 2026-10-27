@@ -79,32 +79,54 @@ private struct SectionTitle: View {
 
 private struct KeyboardSection: View {
     @AppStorage("hotkeysEnabled") private var enabled = true
+    @StateObject private var help = KeyboardHelp()
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             SectionTitle(title: "Tastiera",
                          subtitle: "Regola il volume dell'app in primo piano senza aprire VolumeMixer.")
             GroupBox {
-                VStack(alignment: .leading, spacing: 10) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack(spacing: 24) {
-                            shortcut("⌃⌥↑", "Alza del 5%")
-                            shortcut("⌃⌥↓", "Abbassa del 5%")
-                        }
-                        shortcut("⌃⌥← ⌃⌥→", "Scegli un'altra app che sta suonando")
-                        Text("Dopo ⌃⌥← o ⌃⌥→, finché il riquadro è visibile, ⌃⌥↑ e ⌃⌥↓ regolano l'app scelta senza toglierla dal primo piano (comodo con un video a schermo intero).")
-                            .font(.caption).foregroundStyle(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    .opacity(enabled ? 1 : 0.4)
+                HStack {
                     Toggle("Attiva le scorciatoie da tastiera", isOn: $enabled)
                         .toggleStyle(.checkbox)
+                    HelpButton { help.showing = true }
+                        .help("Come funzionano le scorciatoie")
+                    Spacer()
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(6)
             }
         }
         .onChange(of: enabled) { _, on in HotKeys.shared.setEnabled(on) }
+        .sheet(isPresented: $help.showing) { ShortcutsHelp { help.showing = false } }
+    }
+}
+
+private final class KeyboardHelp: ObservableObject {
+    @Published var showing = false
+}
+
+/// Spiegazione delle scorciatoie, aperta dal punto interrogativo.
+private struct ShortcutsHelp: View {
+    let done: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("Scorciatoie da tastiera").font(.title3.weight(.semibold))
+            VStack(alignment: .leading, spacing: 8) {
+                shortcut("⌃⌥↑", "Alza del 5%")
+                shortcut("⌃⌥↓", "Abbassa del 5%")
+                shortcut("⌃⌥← ⌃⌥→", "Scegli un'altra app che sta suonando")
+            }
+            Text("Dopo ⌃⌥← o ⌃⌥→, finché il riquadro è visibile, ⌃⌥↑ e ⌃⌥↓ regolano l'app scelta senza toglierla dal primo piano (comodo con un video a schermo intero).")
+                .font(.callout).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+            HStack {
+                Spacer()
+                Button("Fine", action: done).keyboardShortcut(.defaultAction)
+            }
+        }
+        .padding(20)
+        .frame(width: 400)
     }
 
     private func shortcut(_ keys: String, _ label: LocalizedStringKey) -> some View {
@@ -115,6 +137,29 @@ private struct KeyboardSection: View {
                 .background(.quaternary, in: RoundedRectangle(cornerRadius: 6))
             Text(label)
         }
+    }
+}
+
+/// Il pulsante tondo con il punto interrogativo di macOS.
+private struct HelpButton: NSViewRepresentable {
+    let action: () -> Void
+
+    func makeNSView(context: Context) -> NSButton {
+        let button = NSButton(title: "", target: context.coordinator, action: #selector(Coordinator.click))
+        button.bezelStyle = .helpButton
+        return button
+    }
+
+    func updateNSView(_ button: NSButton, context: Context) {
+        context.coordinator.action = action
+    }
+
+    func makeCoordinator() -> Coordinator { Coordinator(action: action) }
+
+    final class Coordinator: NSObject {
+        var action: () -> Void
+        init(action: @escaping () -> Void) { self.action = action }
+        @objc func click() { action() }
     }
 }
 

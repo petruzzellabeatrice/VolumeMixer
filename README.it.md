@@ -14,7 +14,7 @@ L'ho creata per guardare una serie insieme ad altre persone durante una videochi
 ## Funzioni
 
 - **Un cursore per ogni app**, da 0 a 400%. Sopra il 100% un limitatore evita la distorsione.
-- **Scorciatoie da tastiera**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + freccia) alzano o abbassano del 5% il volume dell'app in primo piano; tenendoli premuti il volume continua a cambiare. **⌃⌥← / ⌃⌥→** scelgono un'altra app che sta suonando: finché l'indicatore è visibile, ⌃⌥↑ / ⌃⌥↓ regolano quell'app senza portarla in primo piano, così puoi abbassare la chiamata senza uscire da un video a schermo intero. Un piccolo indicatore in alto mostra il nuovo livello, anche sopra i video a schermo intero. I tasti del volume del Mac continuano a funzionare come sempre. Le scorciatoie si possono disattivare dalla finestra principale.
+- **Scorciatoie da tastiera**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + freccia) alzano o abbassano del 5% il volume dell'app in primo piano; tenendoli premuti il volume continua a cambiare. **⌃⌥← / ⌃⌥→** scelgono un'altra app che sta suonando: finché l'indicatore è visibile, ⌃⌥↑ / ⌃⌥↓ regolano quell'app senza portarla in primo piano, così puoi abbassare la chiamata senza uscire da un video a schermo intero. Un piccolo indicatore in alto mostra il nuovo livello, anche sopra i video a schermo intero. I tasti del volume del Mac continuano a funzionare come sempre. Nella finestra principale puoi disattivarle, e il pulsante **?** accanto alla casella le spiega.
 - **Preset**: salva i volumi attuali e richiamali con un clic.
 - **Ricorda i volumi** di ogni app e li riapplica quando l'app torna a suonare.
 - Si adatta da sola quando cambia l'uscita audio (per esempio se colleghi le cuffie).
@@ -82,6 +82,8 @@ Il codice è in `Sources/`:
 
 ## Licenza
 
-[MIT](LICENSE)
+Dalla versione 1.3.0 VolumeMixer è distribuita con la [PolyForm Noncommercial License 1.0.0](LICENSE): puoi usarla, studiarla, modificarla e condividerla gratuitamente, purché non a scopo commerciale. Per venderla o usarla commercialmente serve una licenza a parte: [apri una issue](https://github.com/petruzzellabeatrice/VolumeMixer/issues) per chiederla.
+
+Le versioni fino alla 1.2.0 comprese sono state distribuite con licenza MIT e restano disponibili con quella licenza.
 
 Questo progetto non è affiliato ad Apple, WhatsApp o alle altre app citate.

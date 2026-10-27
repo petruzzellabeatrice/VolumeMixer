@@ -32,7 +32,6 @@ struct AppRow: View {
 
 struct MenuView: View {
     @ObservedObject var mixer: Mixer
-    @AppStorage("hotkeysEnabled") private var hotkeysEnabled = true
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -56,14 +55,8 @@ struct MenuView: View {
             } else {
                 ForEach(mixer.apps) { AppRow(entry: $0, mixer: mixer) }
             }
-            VStack(alignment: .leading, spacing: 2) {
-                Text("0–400%. Oltre il 100% un limitatore evita la distorsione.")
-                if hotkeysEnabled {
-                    Text("⌃⌥↑ / ⌃⌥↓: volume dell'app in primo piano.")
-                    Text("⌃⌥← / ⌃⌥→: scegli un'altra app.")
-                }
-            }
-            .font(.caption2).foregroundStyle(.secondary)
+            Text("0–400%. Oltre il 100% un limitatore evita la distorsione.")
+                .font(.caption2).foregroundStyle(.secondary)
             Divider()
             HStack {
                 Button("Apri VolumeMixer…") { MainWindowController.shared.show() }

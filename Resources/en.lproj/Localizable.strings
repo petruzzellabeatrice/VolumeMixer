@@ -13,8 +13,6 @@
 "Silenzia" = "Mute";
 
 /* Tastiera */
-"⌃⌥↑ / ⌃⌥↓: volume dell'app in primo piano." = "⌃⌥↑ / ⌃⌥↓: volume of the frontmost app.";
-"⌃⌥← / ⌃⌥→: scegli un'altra app." = "⌃⌥← / ⌃⌥→: pick another app.";
 "Tastiera" = "Keyboard";
 "Regola il volume dell'app in primo piano senza aprire VolumeMixer." = "Adjust the volume of the frontmost app without opening VolumeMixer.";
 "Alza del 5%" = "Up 5%";
@@ -22,6 +20,9 @@
 "Scegli un'altra app che sta suonando" = "Pick another app that is playing";
 "Dopo ⌃⌥← o ⌃⌥→, finché il riquadro è visibile, ⌃⌥↑ e ⌃⌥↓ regolano l'app scelta senza toglierla dal primo piano (comodo con un video a schermo intero)." = "After ⌃⌥← or ⌃⌥→, while the indicator is visible, ⌃⌥↑ and ⌃⌥↓ adjust the chosen app without bringing it to the front (handy with full-screen video).";
 "Attiva le scorciatoie da tastiera" = "Enable keyboard shortcuts";
+"Scorciatoie da tastiera" = "Keyboard shortcuts";
+"Come funzionano le scorciatoie" = "How the shortcuts work";
+"Fine" = "Done";
 
 /* Finestra */
 "App" = "Apps";

@@ -14,7 +14,7 @@ I built it for watching a series together while on a video call: the call was al
 ## Features
 
 - **One slider per app**, from 0 to 400%. Above 100% a soft limiter keeps the sound from distorting.
-- **Keyboard shortcuts**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + arrow) raise or lower the volume of the frontmost app by 5%; hold them to keep going. **⌃⌥← / ⌃⌥→** pick another app that is playing: while the indicator is visible, ⌃⌥↑ / ⌃⌥↓ adjust that app without bringing it to the front, so you can turn down the call without leaving a full-screen video. A small indicator at the top of the screen shows the new level, even over full-screen video. The Mac's own volume keys keep working as usual. The shortcuts can be turned off in the main window.
+- **Keyboard shortcuts**: **⌃⌥↑ / ⌃⌥↓** (Control + Option + arrow) raise or lower the volume of the frontmost app by 5%; hold them to keep going. **⌃⌥← / ⌃⌥→** pick another app that is playing: while the indicator is visible, ⌃⌥↑ / ⌃⌥↓ adjust that app without bringing it to the front, so you can turn down the call without leaving a full-screen video. A small indicator at the top of the screen shows the new level, even over full-screen video. The Mac's own volume keys keep working as usual. In the main window you can turn them off, and the **?** button next to the checkbox explains them.
 - **Presets**: save the current volumes and recall them with one click.
 - **Remembers your volumes** for each app and reapplies them when the app starts playing again.
 - Follows output changes (for example plugging in headphones).
@@ -82,6 +82,8 @@ The code is in `Sources/`:
 
 ## License
 
-[MIT](LICENSE)
+Since version 1.3.0, VolumeMixer is released under the [PolyForm Noncommercial License 1.0.0](LICENSE): you can use, study, modify and share it for free, as long as it is not for commercial purposes. Selling it or using it commercially requires a separate license: [open an issue](https://github.com/petruzzellabeatrice/VolumeMixer/issues) to ask.
+
+Versions up to and including 1.2.0 were released under the MIT License and remain available under it.
 
 This project is not affiliated with Apple, WhatsApp or any other app mentioned.

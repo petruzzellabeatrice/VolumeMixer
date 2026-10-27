@@ -20,14 +20,14 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.0</string>
+	<string>1.3.0</string>
 	<key>CFBundleVersion</key>
-	<string>4</string>
+	<string>5</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>14.4</string>
 	<key>NSAudioCaptureUsageDescription</key>
 	<string>VolumeMixer cattura l'audio delle singole app per regolarne il volume separatamente.</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2026 Beatrice Petruzzella. Licenza MIT.</string>
+	<string>Copyright © 2026 Beatrice Petruzzella. PolyForm Noncommercial 1.0.0.</string>
 </dict>
 </plist>
